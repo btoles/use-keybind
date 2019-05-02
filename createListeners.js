@@ -29,7 +29,7 @@ export default bindings => {
                 modifiers: [],
             }
         );
-        const combo = `${normalizeModifiers(modifiers).join('+')}+${keys.join('+')}`;
+        const _combo = `${normalizeModifiers(modifiers).join('+')}+${keys.join('+')}`;
         const keyBind = {
             keys,
             nextKeyIdx: 0,
@@ -38,12 +38,13 @@ export default bindings => {
             altKey: modifiers.some(key => altKeys.includes(key)),
             shiftKey: modifiers.some(key => key === 'shift'),
         };
-        const keyBindExists = keyBinds.some(binding => binding.combo === combo);
+        const keyBindExists = keyBinds.some(binding => binding._combo === _combo);
 
         if (keyBindExists) return;
 
         keyBinds.push({
-            combo,
+            // only used to remove duplicate keybind definitions
+            _combo,
             callback,
             keyBind,
         });

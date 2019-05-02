@@ -21,18 +21,18 @@ const useCombination = (element, combo) => {
     const shittyButItDoesTheTrickRegExp = /([.*?]*)(\+|\-)?([^(\+|\-)]+)/g;
     const modifiers = { ctrlKey: false, altKey: false, shiftKey: false };
     const matches = combo.match(shittyButItDoesTheTrickRegExp);
-    matches.forEach(key => {
+    matches.forEach(keyCombo => {
         let _key = '';
-        for (let char of key) {
+        for (let char of keyCombo) {
             if (!['+', '-'].includes(char)) {
                 _key = _key + char;
             }
         }
-        const keyDirection = key[0];
+        const keyDirection = keyCombo[0];
         const isKeyDown = keyDirection !== '-';
-        if (ctrlKeys.includes(key)) modifiers.ctrlKey = isKeyDown;
-        if (altKeys.includes(key)) modifiers.altKey = isKeyDown;
-        if (key === 'shift') modifiers.shiftKey = isKeyDown;
+        if (ctrlKeys.includes(_key)) modifiers.ctrlKey = isKeyDown;
+        if (altKeys.includes(_key)) modifiers.altKey = isKeyDown;
+        if (_key === 'shift') modifiers.shiftKey = isKeyDown;
 
         const keyboardEvent = { key: _key, ...modifiers };
 
@@ -46,6 +46,8 @@ const useCombination = (element, combo) => {
         }
     });
 };
+
+// TODO: update the tests to pass the proper structure to the components instead of mapping them from an array
 
 describe('useKeyBind', () => {
     const callback = jest.fn();
@@ -78,7 +80,7 @@ describe('useKeyBind', () => {
             const { getByTestId } = render(<TestCmp keys={['control', 'alt', 'shift']} callback={callback} />);
             useCombination(getByTestId('expected'), 'ctrl');
             useCombination(getByTestId('expected'), 'alt');
-            useCombination(getByTestId('expected'), 'ctrl');
+            useCombination(getByTestId('expected'), 'shift');
             expect(callback).toHaveBeenCalledTimes(3);
         });
     })
@@ -123,12 +125,11 @@ describe('useKeyBind', () => {
     });
 
     it.each([
+        /** [keys, combo] */
         [['alt', 'opt', 'option'], 'alt'],
         [['ctrl', 'ctl', 'control'], 'control'],
         [['alt+z+2', 'opt+z+2', 'option+z+2'], 'opt+z+2'],
     ])('should ignore duplicate keybinds (%j)', (keys, combo) => {
-        // console.log('duplicate', duplicate)
-        /** Option is an alias for Alt, we should only fire one event as they are the same keybind. */
         const { getByTestId } = render(<TestCmp keys={keys} callback={callback} />);
         useCombination(getByTestId('expected'), combo);
         expect(callback).toHaveBeenCalledTimes(1);
