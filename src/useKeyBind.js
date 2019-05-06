@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import createListeners from './createListeners';
+import createListeners from './utils/createListeners';
 
 function useKeyBind(element, bindings) {
     const { keyDownListener, keyUpListener } = createListeners(bindings);
@@ -42,7 +42,7 @@ function useKeyBind(element, bindings) {
                 }
             }
         }
-    }, [element])
+    }, [element]);
 }
 
 export default useKeyBind;

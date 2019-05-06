@@ -1,13 +1,22 @@
 {
   "name": "use-keybind",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "v0.0.5-alpha",
+  "description": "Create keybinds for hotkey shortcuts.",
+  "main": "dist/useKeyBind.js",
   "scripts": {
+    "build": "rimraf dist && babel --out-dir dist --ignore **/*.test.js src",
     "test": "jest --watch"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "key",
+    "bind",
+    "hotkey",
+    "react",
+    "hooks",
+    "usehooks",
+    "shortcuts"
+  ],
+  "author": "B.Toles",
   "license": "ISC",
   "dependencies": {
     "react": "^16.8.6",
@@ -20,6 +29,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
     "@babel/polyfill": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
@@ -27,6 +37,7 @@
     "babel-jest": "^24.7.1",
     "jest": "^24.7.1",
     "react-testing-library": "^7.0.0",
+    "rimraf": "^2.6.3",
     "user-event": "^2.0.1"
   }
 }

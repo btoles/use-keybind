@@ -13,7 +13,7 @@
     // binding: callbackFn or callbackFn[]
     'ctrl+t': onOpenTab,
     'ctrl+shift+s': [onSave, onSubmit],
-    'ctrl+f': () => inputRef.focus(),
+    'ctrl+f': () => inputRef.current.focus(),
 }
 ```
 
